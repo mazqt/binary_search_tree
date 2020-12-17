@@ -1,0 +1,2 @@
+A project in ruby wherein I am creating a binary search tree program. I'll be creating a node class to represent each individual node and its branches, a tree class to contain the original root, and adding functions to allow the tree to be populated with an array and manipulated after initialization has occured.
+
