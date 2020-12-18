@@ -102,12 +102,102 @@ class Tree
       end
     end
   end
+
+  def find(value)
+    current_node = @root
+
+    until current_node.data == value
+      prev_node = current_node
+
+      if current_node.data > value
+        current_node = current_node.left
+      else
+        current_node = current_node.right
+      end
+      return "Value not found" if current_node.nil?
+    end
+
+    return current_node
+  end
+
+  def level_order()
+    queue = [@root]
+    values = []
+    current_node = nil
+
+    until queue.empty?
+      current_node = queue.shift
+      queue << current_node.left if !current_node.left.nil?
+      queue << current_node.right if !current_node.right.nil?
+      values << current_node.data
+    end
+    values
+  end
+
+  def inorder(node = @root)
+    return node if node.left.nil? && node.right.nil?
+    queue = []
+
+    queue << inorder(node.left) if !node.left.nil?
+    queue << node
+    queue << inorder(node.right) if !node.right.nil?
+
+    values = []
+    queue.flatten.each do |node|
+      if node.is_a?(Node)
+        values << node.data
+      else
+        values << node
+      end
+    end
+    values
+  end
+
+  def preorder(node = @root)
+    return node if node.left.nil? && node.right.nil?
+    queue = []
+
+    queue << node
+    queue << inorder(node.left) if !node.left.nil?
+    queue << inorder(node.right) if !node.right.nil?
+
+    values = []
+    queue.flatten.each do |node|
+      if node.is_a?(Node)
+        values << node.data
+      else
+        values << node
+      end
+    end
+    values
+  end
+
+  def postorder(node = @root)
+    return node if node.left.nil? && node.right.nil?
+    queue = []
+
+    queue << inorder(node.left) if !node.left.nil?
+    queue << inorder(node.right) if !node.right.nil?
+    queue << node
+
+    values = []
+    queue.flatten.each do |node|
+      if node.is_a?(Node)
+        values << node.data
+      else
+        values << node
+      end
+    end
+    values
+  end
 end
 
-array = [3, 5, 2, 4, 6, 8, 31, 536, 1233]
+array = [3, 5, 2, 4, 6, 8, 31, 536, 1233, 231, 241, 123214, 4332, 123, 354, 187]
 t = Tree.new(array)
 t.insert(29)
 t.insert(33)
-t.delete(6)
-t.insert(6)
 t
+t.level_order
+t.inorder
+t.preorder
+t.postorder
