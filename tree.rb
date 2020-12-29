@@ -192,7 +192,7 @@ class Tree
   end
 
   def height(node = @root)
-    queue = [@root, 0]
+    queue = [node, 0]
     current_depth = 0
     current_node = nil
     max_depth = 0
@@ -234,6 +234,40 @@ class Tree
     return depth
   end
 
+  def balanced?
+    queue = [@root]
+    current_node = nil
+    left_depth = 0
+    right_depth = 0
+
+    until queue.empty?
+      current_node = queue.shift
+      queue << current_node.left if !current_node.left.nil?
+      queue << current_node.right if !current_node.right.nil?
+      if current_node.right.nil?
+        right_depth = -1
+      else
+        right_depth = height(current_node.right)
+      end
+      if current_node.left.nil?
+        left_depth = -1
+      else
+        left_depth = height(current_node.left)
+      end
+      dif = left_depth - right_depth
+      if dif > 1 || dif < -1
+        return false
+      end
+    end
+    true
+  end
+
+  def rebalance
+    values = self.level_order
+
+    @root = build_tree(values)
+  end
+
 end
 
 array = [3, 5, 2, 4, 6, 8, 31, 536, 1233, 231, 241, 123214, 4332, 123, 354, 187]
@@ -246,11 +280,12 @@ t.inorder
 t.preorder
 t.postorder
 t.height
-t.depth(3)
-t.depth(31)
-t.depth(231)
-t.depth(123)
-t.depth(2)
-t.depth(187)
-t.depth(6)
-
+t.balanced?
+t.insert(123213123)
+t.insert(12312346554234)
+t.insert(12343765432468543246)
+t.insert(1234732456789867654324567865)
+t.insert(123444446567452354657677879654324)
+t.balanced?
+t.rebalance
+t.balanced?
