@@ -213,8 +213,6 @@ class Tree
     max_depth
   end
 
-  end
-
   def depth(value)
     current_node = @root
     depth = 0
@@ -270,22 +268,3 @@ class Tree
 
 end
 
-array = [3, 5, 2, 4, 6, 8, 31, 536, 1233, 231, 241, 123214, 4332, 123, 354, 187]
-t = Tree.new(array)
-t.insert(29)
-t.insert(33)
-t
-t.level_order
-t.inorder
-t.preorder
-t.postorder
-t.height
-t.balanced?
-t.insert(123213123)
-t.insert(12312346554234)
-t.insert(12343765432468543246)
-t.insert(1234732456789867654324567865)
-t.insert(123444446567452354657677879654324)
-t.balanced?
-t.rebalance
-t.balanced?
