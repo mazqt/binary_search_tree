@@ -190,6 +190,50 @@ class Tree
     end
     values
   end
+
+  def height(node = @root)
+    queue = [@root, 0]
+    current_depth = 0
+    current_node = nil
+    max_depth = 0
+
+    until queue.empty?
+      current_node = queue.shift
+      current_depth = queue.shift
+      max_depth = current_depth if current_depth > max_depth
+      if !current_node.left.nil?
+        queue << current_node.left
+        queue << (current_depth + 1)
+      end
+      if !current_node.right.nil?
+        queue << current_node.right
+        queue << (current_depth + 1)
+      end
+    end
+    max_depth
+  end
+
+  end
+
+  def depth(value)
+    current_node = @root
+    depth = 0
+
+    until current_node.data == value
+      prev_node = current_node
+      depth += 1
+
+      if current_node.data > value
+        current_node = current_node.left
+      else
+        current_node = current_node.right
+      end
+      return "Value not found" if current_node.nil?
+    end
+
+    return depth
+  end
+
 end
 
 array = [3, 5, 2, 4, 6, 8, 31, 536, 1233, 231, 241, 123214, 4332, 123, 354, 187]
@@ -201,3 +245,12 @@ t.level_order
 t.inorder
 t.preorder
 t.postorder
+t.height
+t.depth(3)
+t.depth(31)
+t.depth(231)
+t.depth(123)
+t.depth(2)
+t.depth(187)
+t.depth(6)
+
